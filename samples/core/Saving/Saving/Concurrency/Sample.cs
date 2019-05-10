@@ -30,6 +30,9 @@ namespace EFSaving.Concurrency
                 context.Database.ExecuteSqlCommand(
                     "UPDATE dbo.People SET FirstName = 'Jane' WHERE PersonId = 1");
 
+                context.Database.ExecuteSqlCommand(
+                    "UPDATE dbo.People SET LastName = 'Joe' WHERE PersonId = 1");
+
                 var saved = false;
                 while (!saved)
                 {
@@ -54,7 +57,7 @@ namespace EFSaving.Concurrency
                                     var databaseValue = databaseValues[property];
 
                                     // TODO: decide which value should be written to database
-                                    // proposedValues[property] = <value to be saved>;
+                                     proposedValues[property] = databaseValue;
                                 }
 
                                 // Refresh original values to bypass next concurrency check

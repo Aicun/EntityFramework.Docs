@@ -31,6 +31,10 @@ namespace EFSaving.Transactions.ControllingTransaction
                             .OrderBy(b => b.Url)
                             .ToList();
 
+                        Console.WriteLine(blogs.Count);
+
+                        throw new Exception();
+
                         // Commit transaction if all commands succeed, transaction will auto-rollback
                         // when disposed if either commands fails
                         transaction.Commit();

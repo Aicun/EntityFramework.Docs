@@ -42,15 +42,18 @@ namespace EFSaving.Transactions.SharingTransaction
                             var blogs = context2.Blogs
                                 .OrderBy(b => b.Url)
                                 .ToList();
+
+                            //throw new Exception("Transaction failed");
                         }
 
                         // Commit transaction if all commands succeed, transaction will auto-rollback
                         // when disposed if either commands fails
                         transaction.Commit();
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         // TODO: Handle failure
+                        Console.WriteLine(e.Message);
                     }
                 }
             }

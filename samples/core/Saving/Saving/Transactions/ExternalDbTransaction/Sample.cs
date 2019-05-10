@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
@@ -30,7 +31,12 @@ namespace EFSaving.Transactions.ExternalDbTransaction
                         // Run raw ADO.NET command in the transaction
                         var command = connection.CreateCommand();
                         command.Transaction = transaction;
-                        command.CommandText = "DELETE FROM dbo.Blogs";
+                        //command.CommandText = "DELETE FROM dbo.Blogs";
+
+                        command.CommandText = @"INSERT INTO dbo.Blogs VALUES(@param1)";
+
+                        command.Parameters.AddWithValue("@param1", "Hello");
+
                         command.ExecuteNonQuery();
 
                         // Run an EF Core command in the transaction
@@ -43,15 +49,18 @@ namespace EFSaving.Transactions.ExternalDbTransaction
                             context.Database.UseTransaction(transaction);
                             context.Blogs.Add(new Blog { Url = "http://blogs.msdn.com/dotnet" });
                             context.SaveChanges();
+
+                            throw new Exception("Failed");
                         }
 
                         // Commit transaction if all commands succeed, transaction will auto-rollback
                         // when disposed if either commands fails
                         transaction.Commit();
                     }
-                    catch (System.Exception)
+                    catch (System.Exception e)
                     {
                         // TODO: Handle failure
+                        Console.WriteLine(e.Message);
                     }
                 }
             }

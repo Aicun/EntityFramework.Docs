@@ -56,7 +56,7 @@ namespace EFSaving.ExplicitValuesGenerateProperties
 
                 foreach (var employee in context.Employees)
                 {
-                    Console.WriteLine(employee.EmployeeId + ": " + employee.Name);
+                    Console.WriteLine(employee.EmployeeId + ": " + employee.Name + ", " + employee.EmploymentStarted + ", " + employee.LastPayRaise);
                 }
             }
             #endregion
